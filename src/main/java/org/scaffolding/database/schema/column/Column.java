@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.scaffolding.database.schema.TableSchema;
 import org.scaffolding.misc.Utilities;
+import org.scaffolding.yml.ScaffoldProps;
 
 @Getter
 @Setter
@@ -68,15 +69,7 @@ public class Column {
     }
 
 
-    public String formatToGetter(){
-        //TODO
-       return null;
-    }
 
-    public String formatToSetter(){
-        //TODO
-       return null;
-    }
 
     public String formatToField(){
         return "\tprivate " + getClassString() + " " + getName() + ";";
@@ -84,14 +77,25 @@ public class Column {
 
 
     public String formatGetterAndSetter() throws IOException {
-        InputStream inputStream = Column.class.getClassLoader().getResourceAsStream("backend/java/default.temp");
+        InputStream inputStream = Column.class.getClassLoader().getResourceAsStream(Utilities.defaultTemplateLocation());
         String getterSetterTemplate = Utilities.readFile(inputStream);
         String pattern = "##getters&setters(.*?)!!getters&setters";
         String content = Utilities.getContentBetweenPattern(pattern,getterSetterTemplate);
         content = content.replaceAll("##type","String");
         content = content.replaceAll("##nameUpperscale",upperFirstChar());
         content = content.replaceAll("##name",getName());
-        System.out.println(content);
-        return null;
+        return content;
+    }
+
+    public String formatFields() throws IOException {
+        InputStream inputStream = Column.class.getClassLoader().getResourceAsStream(Utilities.defaultTemplateLocation());
+        String template = Utilities.readFile(inputStream);
+        String pattern = "##fields(.*?)!!fields";
+        String content = Utilities.getContentBetweenPattern(pattern,template);
+        content = content.replaceAll("##type","String");
+        content = content.replaceAll("##name",getName());
+        content = content.replaceAll("##column","");
+
+        return content;
     }
 }

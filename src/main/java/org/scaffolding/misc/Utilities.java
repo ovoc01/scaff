@@ -1,5 +1,7 @@
 package org.scaffolding.misc;
 
+import org.scaffolding.yml.ScaffoldProps;
+
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,5 +39,14 @@ public class Utilities {
             properties.load(fl);
         }
         return properties;
+    }
+
+    public static String defaultTemplateLocation(){
+        return  String.format("backend/%s/default.temp", ScaffoldProps.language.getLang());
+    }
+
+    public static String loadEntityTemplate() throws IOException {
+        InputStream inputStream = Utilities.class.getClassLoader().getResourceAsStream("backend/template/entity.temp");
+        return readFile(inputStream);
     }
 }

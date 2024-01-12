@@ -1,5 +1,6 @@
 package org.scaffolding.database.schema;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
@@ -15,6 +16,7 @@ import lombok.ToString;
 import org.scaffolding.database.schema.column.Column;
 import org.scaffolding.database.schema.column.ForeignKey;
 import org.scaffolding.database.schema.column.PrimaryKey;
+import org.scaffolding.misc.Utilities;
 
 @Getter
 @Setter
@@ -116,53 +118,7 @@ public class TableSchema {
         return arrayList;
     }
 
-    public String getAllGetter() {
-        StringBuilder sb = new StringBuilder();
-        if (primaryKey != null) {
-            sb.append(primaryKey.formatToGetter()).append("\n");
-        }
-        if (foreignKeys != null && !foreignKeys.isEmpty()) {
-            for (ForeignKey foreignKey : this.getForeignKeys()) {
-                sb.append(foreignKey.formatToGetter()).append("\n");
-            }
-        }
-        for (Column column : this.getColumns()) {
-            sb.append(column.formatToGetter()).append("\n");
-        }
-        return sb.toString();
-    }
 
-    public String getAllSetter() {
-        StringBuilder sb = new StringBuilder();
-        if (primaryKey != null) {
-            sb.append(primaryKey.formatToSetter()).append("\n");
-        }
-        if (foreignKeys != null && !foreignKeys.isEmpty()) {
-            for (ForeignKey foreignKey : this.getForeignKeys()) {
-                sb.append(foreignKey.formatToSetter()).append("\n");
-            }
-        }
-        for (Column column : this.getColumns()) {
-            sb.append(column.formatToSetter()).append("\n");
-        }
-        return sb.toString();
-    }
-
-    public String getAllFields() {
-        StringBuilder sb = new StringBuilder();
-        if (primaryKey != null) {
-            sb.append(primaryKey.formatToField()).append("\n");
-        }
-        if (foreignKeys != null && !foreignKeys.isEmpty()) {
-            for (ForeignKey foreignKey : this.getForeignKeys()) {
-                sb.append(foreignKey.formatToField()).append("\n");
-            }
-        }
-        for (Column column : this.getColumns()) {
-            sb.append(column.formatToField()).append("\n");
-        }
-        return sb.toString();
-    }
 
 
     public void drawTableSchema(){
@@ -188,5 +144,46 @@ public class TableSchema {
         }
 
         System.out.println(sb.toString());
+    }
+
+    public String getAllGettersAndSetters() throws IOException {
+        StringBuilder sb = new StringBuilder();
+        if (primaryKey != null) {
+            sb.append(primaryKey.formatGetterAndSetter()).append("\n");
+        }
+        if (foreignKeys != null && !foreignKeys.isEmpty()) {
+            for (ForeignKey foreignKey : this.getForeignKeys()) {
+                sb.append(foreignKey.formatGetterAndSetter()).append("\n");
+            }
+        }
+        for (Column column : this.getColumns()) {
+            sb.append(column.formatGetterAndSetter()).append("\n");
+        }
+        return sb.toString();
+    }
+
+    public String getAllFields() throws IOException {
+        StringBuilder sb = new StringBuilder();
+        if (primaryKey != null) {
+            sb.append(primaryKey.formatFields());
+        }
+        if (foreignKeys != null && !foreignKeys.isEmpty()) {
+            for (ForeignKey foreignKey : this.getForeignKeys()) {
+                sb.append(foreignKey.formatFields());
+            }
+        }
+        for (Column column : this.getColumns()) {
+            sb.append(column.formatFields());
+        }
+        return sb.toString();
+    }
+
+    public String toEntity() throws IOException {
+        String entityTemplate = Utilities.loadEntityTemplate();
+        entityTemplate = entityTemplate.replaceAll("##name", this.getEntityName());
+        entityTemplate = entityTemplate.replaceAll("##fields", this.getAllFields());
+        entityTemplate = entityTemplate.replaceAll("##getters&setters", this.getAllGettersAndSetters());
+
+        return entityTemplate;
     }
 }
