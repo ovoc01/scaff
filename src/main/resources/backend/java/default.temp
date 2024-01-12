@@ -1,0 +1,16 @@
+##getters&setters
+public ##type get##nameUpperscale(){
+    return this.##name;
+}
+
+public void set##nameUpperscale(##type ##name){
+    if(##name==null){
+        throw new IllegalArgumentException("##name can not be null");
+    }
+    this.##name=##name;
+}
+
+!!getters&setters
+
+##default-entity-annotations
+!!default-entity-annotations

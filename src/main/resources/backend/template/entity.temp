@@ -1,0 +1,8 @@
+##packageName;
+##imports
+
+##annotations
+public class ##entityName ??extends{
+    ##fields
+    ##getters&setters
+}

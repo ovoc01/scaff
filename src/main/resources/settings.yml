@@ -1,0 +1,28 @@
+template:
+  controller: template/controller.temp
+  service: template/service.temp
+  entity: template/entity.temp
+
+lang:
+  java:
+    webFramework: spring,everFlow
+    orm: springJPA,bddobject,
+
+    dotnet:
+      web-framework: aspnetcore,default
+      orm: efcore,default
+
+spring:
+  files:
+    controller: template/backend/java/spring-boot/controller.temp
+    service: template/backend/java/spring-boot/service.temp
+    entity: template/backend/java/spring-boot/entity.temp
+    repository: template/backend/java/spring-boot/repository.temp
+
+
+ever-flow:
+  files:
+    controller: template/backend/java/ever-flow/controller.temp
+    entity: template/backend/java/ever-flow/entity.temp
+
+

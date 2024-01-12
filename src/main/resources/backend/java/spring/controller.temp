@@ -1,0 +1,28 @@
+##Get
+@GetMapping
+    public ResponseEntity<List<${tableSchema.getEntityName()}>> getAll${tableSchema.getEntityName()}s() {
+        List<${tableSchema.getEntityName()}> ${tableSchema.name}s = ${tableSchema.name}Service.getAll${tableSchema.getEntityName()}s();
+        return new ResponseEntity<>(${tableSchema.name}s, HttpStatus.OK);
+    }
+ ##
+
+ ##Post
+ @PostMapping
+     public ResponseEntity<${tableSchema.getEntityName()}> create${tableSchema.getEntityName()}(@RequestBody ${tableSchema.getEntityName()} ${tableSchema.name}) {
+         ${tableSchema.getEntityName()} created${tableSchema.name} = ${tableSchema.getEntityName()}Service.create${tableSchema.getEntityName()}(${tableSchema.name});
+         return new ResponseEntity<>(created${tableSchema.name}, HttpStatus.CREATED);
+     }
+
+ ##Put
+ @PutMapping("/{id}")
+     public ResponseEntity<${tableSchema.getEntityName()}> update${tableSchema.getEntityName()}(@PathVariable ${tableSchema.primaryKey.type} id, @RequestBody ${tableSchema.getEntityName()} ${tableSchema.name}) {
+         ${tableSchema.getEntityName()} updated${tableSchema.getEntityName()} = ${tableSchema.getEntityName()}Service.update${tableSchema.getEntityName()}(id, ${tableSchema.name});
+         return new ResponseEntity<>(updated${tableSchema.name}, HttpStatus.OK);
+     }
+
+  ##Delete
+  @DeleteMapping("/{id}")
+      public ResponseEntity<Void> delete${tableSchema.getEntityName()}(@PathVariable ${tableSchema.primaryKey.type} id) {
+          ${tableSchema.getEntityName()}Service.delete${tableSchema.getEntityName()}(id);
+          return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+  }

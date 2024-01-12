@@ -1,0 +1,12 @@
+##packageName;
+##imports
+
+##annotations
+public class ##controllerName {
+    ##fields
+
+   ##Get
+   ##Post
+   ##Put
+   ##Delete
+}
